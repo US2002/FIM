@@ -1,11 +1,15 @@
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class Monitor {
     public HashMap<String, String> snapshotHashMap = new HashMap<String, String>();
     public HashMap<String, String> currentHashMap = new HashMap<String, String>();
     public String root = "";
+    String diff = "";
 
     public Monitor(String root) {
         this.root = root;
@@ -27,6 +31,7 @@ public class Monitor {
         snapshotHashMap.clear();
         currentHashMap.clear();
 
+        diff += "Checking with the file 'snapshot'";
         // read snapshot file
         File snapshotFile = new File("snapshot");
         if (snapshotFile.exists()) {
@@ -56,6 +61,9 @@ public class Monitor {
 
         } else {
             System.out.println("No snapshot file exists");
+            diff += timeStamp() + " : ";
+            diff += "No snapshot file Found\n";
+            output();
         }
 
         this.compare();
@@ -70,7 +78,7 @@ public class Monitor {
      */
 
     public void compare() {
-        String diff = "";
+        diff = "";
         Iterator<String> itr1 = snapshotHashMap.keySet().iterator();
         while (itr1.hasNext()) {
             // get directory/file absolute path
@@ -79,6 +87,7 @@ public class Monitor {
                 // both hash maps contain same file or dir
                 if (!snapshotHashMap.get(s1).equals(currentHashMap.get(s1))) {
                     // file has been modified
+                    diff += timeStamp() + " : ";
                     diff += "Edited: " + s1 + ", " + snapshotHashMap.get(s1) + " -> " + currentHashMap.get(s1) + "\n";
                 }
                 // remove matches from both hash maps
@@ -91,18 +100,23 @@ public class Monitor {
         Iterator<String> itr2 = snapshotHashMap.keySet().iterator();
         while (itr2.hasNext()) {
             String s2 = itr2.next();
+            diff += timeStamp() + " : ";
             diff += "Deleted: " + s2 + ", " + snapshotHashMap.get(s2) + "\n";
         }
 
         Iterator<String> itr3 = currentHashMap.keySet().iterator();
         while (itr3.hasNext()) {
             String s3 = itr3.next();
+            diff += timeStamp() + " : ";
             diff += "Added: " + s3 + ", " + currentHashMap.get(s3) + "\n";
         }
+        output();
 
-        // write log to file report.txt
+    }
+
+    public void output() {
         File out = new File("report.txt");
-        try (FileOutputStream fout = new FileOutputStream(out)) {
+        try (FileOutputStream fout = new FileOutputStream(out, true)) {
             // create file if there is none
             if (!out.exists()) {
                 out.createNewFile();
@@ -116,6 +130,20 @@ public class Monitor {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public String timeStamp() {
+        Date date = new Date();
+        Timestamp ts = new Timestamp(date.getTime());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // System.out.println(formatter.format(ts));
+        return formatter.format(ts);
+    }
+
+    public void ss() {
+        diff += timeStamp() + " : ";
+        diff += "SnapShot Created!!";
+        output();
+        diff = "";
     }
 }

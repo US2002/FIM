@@ -29,7 +29,8 @@ public class Driver {
                     s.scan(root, true); // scan target and create snapshot file
 
                     System.out.print("Snapshot created: ");
-
+                    Monitor m = new Monitor(root);
+                    m.ss();
                     // hash the snapshot file and display to user
                     try {
                         String hash = f.hashFile("snapshot");
@@ -52,6 +53,7 @@ public class Driver {
                     m.check();
                     System.out.println("Report created\n");
                 } else {
+                    System.out.println("Exiting...");
                     break;
                 }
             } else {
