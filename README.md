@@ -24,7 +24,8 @@ The File Integrity Monitoring System (FIM) is a Java-based application designed 
 - SHA256 hashing algorithm.
 
 ## ScreenShots
-![App Screenshot](https://github.com/US2002/multiUserChatApp/blob/main/Assets/MultiUserChatAppPhoto.png)
+![App Screenshot](https://kinsta.com/wp-content/uploads/2019/11/file-integrity-monitoring-1024x512.png)
+![App Screenshot](https://github.com/US2002/FIM/blob/main/assets/FIMphoto.png)
 
 ## Future Enhancements
 - Implement email notifications for real-time alerts on critical changes.
