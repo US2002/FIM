@@ -31,7 +31,7 @@ public class Monitor {
         snapshotHashMap.clear();
         currentHashMap.clear();
 
-        diff += "Checking with the file 'snapshot'";
+        diff += "Checking with the file 'snapshot'\n";
         // read snapshot file
         File snapshotFile = new File("snapshot");
         if (snapshotFile.exists()) {
@@ -142,7 +142,7 @@ public class Monitor {
 
     public void ss() {
         diff += timeStamp() + " : ";
-        diff += "SnapShot Created!!";
+        diff += "SnapShot Created!!\n";
         output();
         diff = "";
     }
